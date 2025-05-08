@@ -1,0 +1,8 @@
+# config
+.env
+
+__pycache__/
+
+Neo4j-971f4b3b-Created-2025-04-30.txt
+
+test_neo4j_connection.py
