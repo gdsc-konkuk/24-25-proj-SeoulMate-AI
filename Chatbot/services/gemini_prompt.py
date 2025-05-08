@@ -3,7 +3,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from graph_rag_recommender.graph.create_graph import connect_driver, update_user_node
 from langchain.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
-from config.schemas import FitnessScore
+from Chatbot.schemas import FitnessScore
 
 def find_place_and_user_in_graph(driver, user_id, place_id):
     with driver.session() as session:

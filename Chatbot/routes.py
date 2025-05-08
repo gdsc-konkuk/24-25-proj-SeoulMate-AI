@@ -1,16 +1,8 @@
 from flask import Flask, request, Blueprint
 from services.gemini_prompt import fitness_score
+from utils import get_user_info
 
 chatbot = Blueprint("chatbot", __name__)
-
-def get_user_info_route():
-    data = request.get_json()
-    user_id = data["user_id"]
-    liked_place_ids = data["liked_place_ids"]
-    styles = data["styles"]
-    place_id = data["place_id"]
-
-    return user_id, liked_place_ids, styles, place_id
 
 # @chatbot.route("/free-chat", methods=["POST"])
 # def free_chat_route():
@@ -24,6 +16,7 @@ def fitness_score_route():
     response = fitness_score(user_id, liked_place_ids, styles, place_id)
     return response
 
+## Future Implementation ##
 
 # @chatbot.route("/when-to-visit", methods=["POST"])
 # def safe_location_route():
