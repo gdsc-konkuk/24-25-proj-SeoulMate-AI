@@ -3,7 +3,7 @@ from services.gemini_prompt import fitness_score
 
 chatbot = Blueprint("chatbot", __name__)
 
-def get_user_info():
+def get_user_info_route():
     data = request.get_json()
     user_id = data["user_id"]
     liked_place_ids = data["liked_place_ids"]
@@ -13,20 +13,20 @@ def get_user_info():
     return user_id, liked_place_ids, styles, place_id
 
 # @chatbot.route("/free-chat", methods=["POST"])
-# def free_chat():
+# def free_chat_route():
 #     user_id, liked_place_ids, styles, place_id = get_user_info()
 #     return 
 
 
 @chatbot.route("/fitness-score", methods=["POST"])
-def fitness_score():
+def fitness_score_route():
     user_id, liked_place_ids, styles, place_id = get_user_info()
     response = fitness_score(user_id, liked_place_ids, styles, place_id)
     return response
 
 
 # @chatbot.route("/when-to-visit", methods=["POST"])
-# def safe_location():
+# def safe_location_route():
 #     user_id, liked_place_ids, styles, place_id = get_user_info()
     
     
@@ -34,7 +34,7 @@ def fitness_score():
 
 
 # @chatbot.route("/detail-info", methods=["POST"])
-# def detail_info():
+# def detail_info_route():
 #     user_id, liked_place_ids, styles, place_id = get_user_info()
     
     
