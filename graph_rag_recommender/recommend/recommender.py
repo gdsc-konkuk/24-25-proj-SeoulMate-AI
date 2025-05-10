@@ -56,10 +56,10 @@ def get_top_places_for_user(user_id, has_history, styles, user_lat, user_long, t
     )
 
     raw_places = get_place_recommendations(graph, user_id, has_history) 
-    print(raw_places)   
+    # print(raw_places)   
     filtered_places = filter_places_by_distance(raw_places, user_lat=user_lat, user_lon=user_long)
 
-    print(filtered_places)
+    # print(filtered_places)
 
     prompt = PromptTemplate(
     template="""
