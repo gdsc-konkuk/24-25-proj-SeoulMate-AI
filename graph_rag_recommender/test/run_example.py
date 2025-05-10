@@ -12,15 +12,14 @@ if __name__=="__main__":
     # liked_places = ["681a1c3947c87c2d81432a6a"]
     # style = ["Nature", "Parents"]
     user_id = "test_user_003"
-    liked_places = []
-    style = ["SNS hot places", "Lover"]
+    liked_place_ids=["681a1c3547c87c2d81432499", "681a1c3547c87c2d8143249a"]
+    styles = ["SNS hot places", "Lover"]
     user_lat = 37.5198332
     user_long = 126.9910426
 
-
     driver = connect_driver()
-    update_user_node(driver, user_id = user_id, liked_place_ids = liked_places, styles = style)
+    update_user_node(driver, user_id = user_id, liked_place_ids = liked_place_ids, styles = styles)
     driver.close()
 
-    res = get_top_places_for_user(user_id=user_id, has_history= bool(liked_places), styles=style, user_lat=user_lat, user_long=user_long, top_k=5)
+    res = get_top_places_for_user(user_id=user_id, has_history= bool(liked_place_ids), styles=styles, user_lat=user_lat, user_long=user_long, top_k=5)
     print(res)

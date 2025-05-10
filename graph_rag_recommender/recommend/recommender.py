@@ -32,7 +32,7 @@ def recommend_by_history(graph: Neo4jGraph, user_id: str):
         MATCH (u:User {{id: '{user_id}'}})-[:LIKED]->(p1:Place)
         MATCH (p1)-[:SIMILAR_TO]-(p2:Place)
         WHERE NOT (u)-[:LIKED]->(p2)
-        RETURN DISTINCT p2.id AS id, p2.category AS category, p2.description AS description, p.latitude as lat, p.longitude as long
+        RETURN DISTINCT p2.id AS id, p2.category AS category, p2.description AS description, p2.latitude as lat, p2.longitude as long
     """
     return graph.query(query)
 
@@ -55,7 +55,8 @@ def get_top_places_for_user(user_id, has_history, styles, user_lat, user_long, t
         password = neo["password"],
     )
 
-    raw_places = get_place_recommendations(graph, user_id, has_history)    
+    raw_places = get_place_recommendations(graph, user_id, has_history) 
+    print(raw_places)   
     filtered_places = filter_places_by_distance(raw_places, user_lat=user_lat, user_lon=user_long)
 
     print(filtered_places)
