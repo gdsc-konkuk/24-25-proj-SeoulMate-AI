@@ -10,7 +10,7 @@ def free_chat_route():
     user_id, liked_place_ids, styles = get_user_info(data, ith_place=False)
     messages = get_history_and_input(data)
 
-    response = free_chat_either(user_id, liked_place_ids, styles, place_id=None, messages)
+    response = free_chat_either(user_id, liked_place_ids, styles, place_id=None, messages=messages)
     return response
 
 @chatbot.route("/free-chat-with-place", methods=["POST"])

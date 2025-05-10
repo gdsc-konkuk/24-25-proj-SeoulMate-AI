@@ -1,7 +1,7 @@
 from graph_rag_recommender.model.loadmodel import load_gemini_model
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage
 from graph_rag_recommender.graph.create_graph import connect_driver, update_user_node
-from langchain.output_parsers import JsonOutputParser
+from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 from Chatbot.schemas import FitnessScore
 import json
@@ -130,7 +130,7 @@ def free_chat_either(user_id, liked_place_ids, styles, place_id, messages):
     if cypher_response == "NO_CYPHER":
         general_prompt = PromptTemplate(
             template="""
-            You are a friendly Korean travel assistant.
+            You are a friendly travel assistant.
 
             Use the following graph data to generate a personalized response to the user's question.
 
@@ -162,13 +162,12 @@ def free_chat_either(user_id, liked_place_ids, styles, place_id, messages):
 
     result_text = run_and_format_cypher(driver, cypher_response)
 
-    # 👉 최종 응답 생성
     answer_prompt = PromptTemplate(
         template="""
-        You are a Korean travel assistant.
+        You are a travel assistant.
 
         Use the following graph query result to answer the user's question.
-        Respond naturally and helpfully in Korean.
+        Respond naturally and helpfully in English.
 
         Graph data:
         {result_text}
@@ -229,7 +228,7 @@ def fitness_score(user_id, liked_place_ids, styles, place_id):
 
     response = llm([HumanMessage(content=formatted_prompt)])
     parsed = parser.parse(response.content)
-    return parsed.dict()
+    return parsed
 
 
 # def when_to_visit(user_id, liked_place_ids, styles, place_id):
