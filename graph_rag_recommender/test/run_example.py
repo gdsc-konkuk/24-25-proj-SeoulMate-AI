@@ -5,18 +5,22 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 from recommend.recommender import get_top_places_for_user
 from graph.create_graph import update_user_node, connect_driver
 
-from google.generativeai import list_models
-
 if __name__=="__main__":
     # user_id = "test_user_001"
     # liked_places = ["abc123", "bcd234"]
-    user_id = "test_user_002"
+    # user_id = "test_user_002"
+    # liked_places = ["681a1c3947c87c2d81432a6a"]
+    # style = ["Nature", "Parents"]
+    user_id = "test_user_003"
     liked_places = []
-    style = "Nature"
+    style = ["SNS hot places", "Lover"]
+    user_lat = 37.5198332
+    user_long = 126.9910426
+
 
     driver = connect_driver()
-    update_user_node(driver, user_id = user_id, liked_place_ids = liked_places, style = style)
+    update_user_node(driver, user_id = user_id, liked_place_ids = liked_places, styles = style)
     driver.close()
 
-    res = get_top_places_for_user("test_user_001", has_history= bool(liked_places))
+    res = get_top_places_for_user(user_id=user_id, has_history= bool(liked_places), styles=style, user_lat=user_lat, user_long=user_long, top_k=5)
     print(res)

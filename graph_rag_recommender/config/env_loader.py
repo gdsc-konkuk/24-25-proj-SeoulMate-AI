@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 
-load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
+load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / "config/.env")
 
 def get_google_api_key():
    return os.getenv("GOOGLE_API_KEY")

@@ -132,14 +132,14 @@ def update_user_node(driver, user_id: str, liked_place_ids: list, styles: list):
 
         if styles: 
             session.run("""
-                MATCH (u:User {id: $user_id})
-                UNWIND $styles AS style
-                MERGE (s:Style {name: style})
-                MERGE (u)-[:HAS_STYLE]->(s)
-            """, user_id=user_id, styles=styles)
-
+            MATCH (u:User {id: $user_id})
+            UNWIND $styles AS style_name
+            MERGE (s:Style {name: style_name})
+            MERGE (u)-[:HAS_STYLE]->(s)
+        """, user_id=user_id, styles=styles)
+            
         session.run("""
-            MATCH (u:User {id:user_id}) - [r:LIKED] -> ()
+            MATCH (u:User {id: $user_id}) - [r:LIKED] -> ()
             DELETE r
         """, user_id=user_id)
 
