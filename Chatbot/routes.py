@@ -1,6 +1,6 @@
 from flask import Flask, request, Blueprint
-from services.gemini_prompt import fitness_score, free_chat_either
-from utils import get_user_info, get_history_and_input
+from Chatbot.services.gemini_prompt import fitness_score, free_chat_either
+from Chatbot.utils import get_user_info, get_history_and_input
 
 chatbot = Blueprint("chatbot", __name__)
 

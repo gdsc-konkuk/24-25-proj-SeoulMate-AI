@@ -2,9 +2,9 @@ from flask import Flask, request, Blueprint
 from graph.create_graph import update_user_node, connect_driver
 from recommend.recommender import get_top_places_for_user
 
-recommend = Blueprint("recommender", __name__)
+recommender = Blueprint("recommender", __name__)
 
-@recommend.route("", methods=["POST"])
+@recommender.route("", methods=["POST"])
 def recommend():
     data = request.get_json()
     user_id = data["user_id"]
