@@ -7,7 +7,7 @@ chatbot = Blueprint("chatbot", __name__)
 @chatbot.route("/free-chat", methods=["POST"])
 def free_chat_route():
     data = request.get_json()
-    user_id, liked_place_ids, styles = get_user_info(data, ith_place=False)
+    user_id, liked_place_ids, styles = get_user_info(data, with_place=False)
     messages = get_history_and_input(data)
 
     response = free_chat_either(user_id, liked_place_ids, styles, place_id=None, messages=messages)
@@ -16,7 +16,7 @@ def free_chat_route():
 @chatbot.route("/free-chat-with-place", methods=["POST"])
 def free_chat_with_place_route():
     data = request.get_json()
-    user_id, liked_place_ids, styles, place_id = get_user_info(data, ith_place=True)
+    user_id, liked_place_ids, styles, place_id = get_user_info(data, with_place=True)
     messages = get_history_and_input(data)
 
     response = free_chat_either(user_id, liked_place_ids, styles, place_id, messages)
