@@ -21,5 +21,5 @@ if __name__=="__main__":
     update_user_node(driver, user_id = user_id, liked_place_ids = liked_place_ids, styles = styles)
     driver.close()
 
-    res = get_top_places_for_user(user_id=user_id, has_history= bool(liked_place_ids), styles=styles, user_lat=user_lat, user_long=user_long, top_k=5)
+    res = get_top_places_for_user(user_id=user_id, liked_place_ids=liked_place_ids, styles=styles, user_lat=user_lat, user_long=user_long, top_k=5)
     print(res)

@@ -5,6 +5,8 @@ from config.schemas import RecommendationExplanation
 from langchain.prompts import PromptTemplate
 from model.loadmodel import load_gemini_model
 from geopy.distance import geodesic
+from langchain_core.messages import HumanMessage
+
 
 def filter_places_by_distance(places, user_lat, user_lon, max_distance_km=20):
     user_loc = (user_lat, user_lon)
@@ -43,7 +45,7 @@ def get_place_recommendations(graph: Neo4jGraph, user_id: str, has_history: bool
         return recommend_by_style(graph, user_id)
     
 
-def get_top_places_for_user(user_id, has_history, styles, user_lat, user_long, top_k=5):
+def get_top_places_for_user(user_id, liked_place_ids, styles, user_lat, user_long, top_k=5):
     parser = JsonOutputParser(pydantic_object= RecommendationExplanation)
     
     llm = load_gemini_model()
@@ -55,8 +57,9 @@ def get_top_places_for_user(user_id, has_history, styles, user_lat, user_long, t
         password = neo["password"],
     )
 
-    raw_places = get_place_recommendations(graph, user_id, has_history) 
-    # print(raw_places)   
+    raw_places = get_place_recommendations(graph, user_id, has_history = bool(liked_place_ids)) 
+    # raw_places = recommend_by_llm(graph, llm, user_id, liked_place_ids, styles, user_lat, user_long)
+    print(raw_places)   
     filtered_places = filter_places_by_distance(raw_places, user_lat=user_lat, user_lon=user_long)
 
     # print(filtered_places)
