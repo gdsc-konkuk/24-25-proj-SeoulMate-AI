@@ -13,14 +13,13 @@ if __name__=="__main__":
     ]
 
     messages_without_place = [
-        HumanMessage(content="What do you think about Jeonju Hanok Village?"),
-        AIMessage(content="It’s a wonderful destination if you enjoy traditional Korean architecture and food."),
-        HumanMessage(content="Is it suitable for a weekend trip with family?")
+        HumanMessage(content="Hello!"),
+        HumanMessage(content="String"),
     ]
 
-    user_id="test_user_004"
-    liked_place_ids=["681a1c3547c87c2d81432497", "681a1c3547c87c2d81432498"]
-    styles=["Nature", "Activities"]
+    user_id="6821a22c2d61901704209947"
+    liked_place_ids=[]
+    styles=["Nature", "Shopping"]
     place_id="681a1c3547c87c2d81432496"
 
     result_without_place = free_chat_either(
