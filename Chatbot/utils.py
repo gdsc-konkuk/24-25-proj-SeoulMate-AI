@@ -7,6 +7,8 @@ def get_user_info(data, with_place = False):
 
     if with_place: 
         place_id = data["place_id"]
+    else: 
+        place_id = None
 
     return user_id, liked_place_ids, styles, place_id
 

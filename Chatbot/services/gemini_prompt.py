@@ -6,7 +6,7 @@ from langchain_core.prompts import PromptTemplate
 from Chatbot.schemas import FitnessScore
 import json
 
-def find_place_and_user_in_graph(driver, user_id, place_id):
+def find_place_and_user_in_graph(driver, user_id, liked_place_ids, place_id):
     with driver.session() as session:
         style_result = session.run("""
             MATCH (u:User {id: $user_id})-[:HAS_STYLE]->(s:Style)
@@ -19,11 +19,15 @@ def find_place_and_user_in_graph(driver, user_id, place_id):
         user_profile = f"The user prefers styles such as {', '.join(styles)} and has liked places in the following categories: {', '.join(liked_cats)}."
 
         rel_result = session.run("""
-            MATCH (u:User {id: $user_id})
-            OPTIONAL MATCH (u)-[:LIKED]->(p1:Place)-[:SIMILAR_TO]-(p2:Place {id: $place_id})
-            OPTIONAL MATCH (u)-[r:LIKED]->(p2:Place {id: $place_id})
-            RETURN count(r) > 0 AS directly_liked, count(p1) > 0 AS similar_liked, collect(DISTINCT p1.name) AS similar_places
-        """, user_id=user_id, place_id=place_id).single()
+            UNWIND $liked_place_ids AS id
+            MATCH (p:Place {id: id})
+            OPTIONAL MATCH (p)-[:SIMILAR_TO]-(sim:Place)
+            WITH collect(DISTINCT p.name) AS directly_liked,
+                collect(DISTINCT sim.name) AS similar_places
+            RETURN directly_liked,
+                size(similar_places) > 0 AS similar_liked,
+                similar_places
+        """, liked_place_ids=liked_place_ids).single()
 
         if rel_result["directly_liked"]:
             relationship_summary = "The user has directly liked this place before."
@@ -125,7 +129,7 @@ def free_chat_either(user_id, liked_place_ids, styles, place_id, messages):
 
     llm = load_gemini_model()
     cypher_response = llm([HumanMessage(content=formatted_prompt)]).content.strip()
-    user_profile, place_description, relationship_summary = find_place_and_user_in_graph(driver, user_id, place_id)
+    user_profile, place_description, relationship_summary = find_place_and_user_in_graph(driver, user_id, liked_place_ids, place_id)
 
     if cypher_response == "NO_CYPHER":
         general_prompt = PromptTemplate(
