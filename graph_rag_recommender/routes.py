@@ -10,8 +10,10 @@ def recommend():
     user_id = data["user_id"]
     liked_place_ids = data["liked_place_ids"]
     styles = data["styles"]
-    user_lat = data["y"]
-    user_long = data["x"]
+    user_lat = data["x"]
+    user_long = data["y"]
+
+    print(data)
     
     driver = connect_driver()
     update_user_node(driver, user_id = user_id, liked_place_ids = liked_place_ids, styles=styles)
