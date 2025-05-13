@@ -16,11 +16,12 @@ def get_history_and_input(data):
     history = data["history"]
     user_input = data["input"]
     messages = []
-    for turn in history:
-        if turn["role"] == "human":
-            messages.append(HumanMessage(content=turn["content"]))
-        elif turn["role"] == "ai":
-            messages.append(AIMessage(content=turn["content"]))
+    if history:
+        for turn in history:
+            if turn["role"] == "human":
+                messages.append(HumanMessage(content=turn["content"]))
+            elif turn["role"] == "ai":
+                messages.append(AIMessage(content=turn["content"]))
 
     messages.append(HumanMessage(content=user_input))
     return messages
