@@ -20,7 +20,7 @@ if __name__=="__main__":
     user_id="6821a22c2d61901704209947"
     liked_place_ids=[]
     styles=["Nature", "Shopping"]
-    place_id="681a1c3547c87c2d81432496"
+    place_id="681a1c3547c87c2d81432494"
 
     result_without_place = free_chat_either(
         user_id=user_id,
@@ -41,6 +41,6 @@ if __name__=="__main__":
 
     fitness_score = fitness_score(user_id, liked_place_ids, styles, place_id)
 
-    print("Free chat without place:", result_with_place)
-    print("Free chat with place: ", result_without_place)
+    print("Free chat with place:", result_with_place)
+    print("Free chat without place: ", result_without_place)
     print("Fitness Score: ", fitness_score)

@@ -14,8 +14,8 @@ if __name__=="__main__":
     user_id = "test_user_003"
     liked_place_ids=["681a1c3547c87c2d81432499", "681a1c3547c87c2d8143249a"]
     styles = ["SNS hot places", "Lover"]
-    user_lat = 37.5198332
-    user_long = 126.9910426
+    user_lat = 37.579617
+    user_long = 126.977041
 
     driver = connect_driver()
     update_user_node(driver, user_id = user_id, liked_place_ids = liked_place_ids, styles = styles)
