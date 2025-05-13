@@ -172,8 +172,10 @@ def free_chat_either(user_id, liked_place_ids, styles, place_id, messages):
         Graph data:
         {result_text}
 
-        Conversation so far:
+        Conversation so far(optional):
         {chat_history}
+
+        If theres no chat history just return greeting message
         """,
         input_variables=["result_text", "chat_history"]
     )

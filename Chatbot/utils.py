@@ -13,15 +13,15 @@ def get_user_info(data, with_place = False):
     return user_id, liked_place_ids, styles, place_id
 
 def get_history_and_input(data):
-    history = data["history"]
+    history = data["history"] or []
     user_input = data["input"]
     messages = []
-    if history:
-        for turn in history:
-            if turn["role"] == "human":
-                messages.append(HumanMessage(content=turn["content"]))
-            elif turn["role"] == "ai":
-                messages.append(AIMessage(content=turn["content"]))
+    
+    for turn in history:
+        if turn["role"] == "human":
+            messages.append(HumanMessage(content=turn["content"]))
+        elif turn["role"] == "ai":
+            messages.append(AIMessage(content=turn["content"]))
 
     messages.append(HumanMessage(content=user_input))
     return messages
