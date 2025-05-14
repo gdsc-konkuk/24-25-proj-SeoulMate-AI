@@ -42,10 +42,14 @@ def recommend_by_history(graph: Neo4jGraph, user_id: str):
     return graph.query(query)
 
 def get_place_recommendations(graph: Neo4jGraph, user_id: str, has_history: bool):
+    recommendations = []
+
     if has_history:
-        return recommend_by_history(graph, user_id)
-    else:
-        return recommend_by_style(graph, user_id)
+        recommendations += recommend_by_history(graph, user_id)
+
+    recommendations += recommend_by_style(graph, user_id)
+
+    return recommendations
     
 
 def get_top_places_for_user(user_id, liked_place_ids, styles, user_lat, user_long, top_k=5):
