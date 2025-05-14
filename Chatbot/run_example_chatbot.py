@@ -35,7 +35,7 @@ if __name__=="__main__":
         liked_place_ids=liked_place_ids,
         styles=styles,
         place_id=place_id,
-        messages=messages_with_place
+        messages=[]
     )
 
 

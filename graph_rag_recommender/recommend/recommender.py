@@ -11,7 +11,10 @@ from langchain_core.messages import HumanMessage
 def filter_places_by_distance(places, user_lat, user_lon, max_distance_km=20):
     user_loc = (user_lat, user_lon)
     filtered = []
-
+    
+    if max_distance_km == 0:
+        return places
+    
     for place in places:
         place_loc = (place["lat"], place["long"])
         dist = geodesic(user_loc, place_loc).kilometers
@@ -60,7 +63,7 @@ def get_top_places_for_user(user_id, liked_place_ids, styles, user_lat, user_lon
     raw_places = get_place_recommendations(graph, user_id, has_history = bool(liked_place_ids)) 
     # raw_places = recommend_by_llm(graph, llm, user_id, liked_place_ids, styles, user_lat, user_long)
     print(raw_places)   
-    filtered_places = filter_places_by_distance(raw_places, user_lat=user_lat, user_lon=user_long)
+    filtered_places = filter_places_by_distance(raw_places, user_lat=user_lat, user_lon=user_long, max_distance_km=0)
 
     # print(filtered_places)
 
