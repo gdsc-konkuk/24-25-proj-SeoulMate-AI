@@ -127,6 +127,10 @@ def free_chat_either(user_id, liked_place_ids, styles, place_id, messages):
     cypher_response = llm([HumanMessage(content=formatted_prompt)]).content.strip()
     user_profile, place_description, relationship_summary = find_place_and_user_in_graph(driver, user_id, place_id)
 
+    print(user_profile, "\n")
+    print(place_description, "\n")
+    print(relationship_summary, "\n")
+
     if cypher_response == "NO_CYPHER":
         general_prompt = PromptTemplate(
             template="""
@@ -166,8 +170,18 @@ def free_chat_either(user_id, liked_place_ids, styles, place_id, messages):
         template="""
         You are a travel assistant.
 
-        Use the following graph query result to answer the user's question.
+        Use the following user information and graph query result to answer the user's question.
         Respond naturally and helpfully in English.
+        If the user does not have any liked categories, generate a response using only their preferred travel styles.
+
+        ## User Information:
+        {user_profile}
+
+        ## Place Information (optional):
+        {place_description}
+
+        ## Relationship between user and place:
+        {relationship_summary}
 
         Graph data:
         {result_text}
@@ -175,12 +189,15 @@ def free_chat_either(user_id, liked_place_ids, styles, place_id, messages):
         Conversation so far(optional):
         {chat_history}
 
-        If theres no chat history just return greeting message
+        If there is no chat history just return greeting message
         """,
-        input_variables=["result_text", "chat_history"]
+        input_variables=["user_profile", "place_description", "relationship_summary","result_text", "chat_history"]
     )
 
     final_prompt = answer_prompt.format(
+        user_profile = user_profile,
+        place_description = place_description,
+        relationship_summary = relationship_summary,
         result_text=result_text,
         chat_history=chat_history
     )

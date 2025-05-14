@@ -7,9 +7,10 @@ from services.gemini_prompt import free_chat_either, fitness_score
 
 if __name__=="__main__":
     messages_with_place = [
-        HumanMessage(content="Does this place have a calm atmosphere?"),
-        AIMessage(content="Yes, it's known for being quiet and peaceful, perfect for a relaxing visit."),
-        HumanMessage(content="Would it be a good option for solo travelers?")
+        HumanMessage(content="What do you think about Gyeongbokgung Palace?"),
+        AIMessage(content="If you are interested in traditional culture, it could be a great choice."),
+        HumanMessage(content="Is it usually crowded on weekends?"),
+        HumanMessage(content="Is it good for me?")
     ]
 
     messages_without_place = [
@@ -19,7 +20,7 @@ if __name__=="__main__":
 
     user_id="6821a22c2d61901704209947"
     liked_place_ids=[]
-    styles=["Nature", "Shopping"]
+    styles=["Nature", "Activites"]
     place_id="681a1c3547c87c2d81432494"
 
     result_without_place = free_chat_either(
@@ -35,12 +36,12 @@ if __name__=="__main__":
         liked_place_ids=liked_place_ids,
         styles=styles,
         place_id=place_id,
-        messages=[]
+        messages=messages_with_place
     )
 
 
     fitness_score = fitness_score(user_id, liked_place_ids, styles, place_id)
 
-    print("Free chat with place:", result_with_place)
     print("Free chat without place: ", result_without_place)
+    print("Free chat with place:", result_with_place)
     print("Fitness Score: ", fitness_score)
