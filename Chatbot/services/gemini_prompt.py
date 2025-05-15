@@ -11,7 +11,12 @@ def find_place_and_user_in_graph(driver, user_id, place_id):
         style_result = session.run("""
             MATCH (u:User {id: $user_id})-[:HAS_STYLE]->(s:Style)
             OPTIONAL MATCH (u)-[:LIKED]->(p:Place)
-            RETURN collect(DISTINCT s.name) AS styles, collect(DISTINCT p.category) AS liked_categories
+            WITH collect(DISTINCT s.name) AS styles, collect(DISTINCT p.category) AS raw_categories
+            UNWIND raw_categories AS cat_list
+            WITH styles, 
+                CASE WHEN typeof(cat_list) = 'LIST' THEN cat_list ELSE [cat_list] END AS normalized
+            UNWIND normalized AS cat
+            RETURN styles, collect(DISTINCT cat) AS liked_categories
         """, user_id=user_id).single()
 
         styles = style_result["styles"]
