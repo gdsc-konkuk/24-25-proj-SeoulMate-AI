@@ -14,7 +14,7 @@ def find_place_and_user_in_graph(driver, user_id, place_id):
             WITH collect(DISTINCT s.name) AS styles, collect(DISTINCT p.category) AS raw_categories
             UNWIND raw_categories AS cat_list
             WITH styles, 
-                CASE WHEN typeof(cat_list) = 'LIST' THEN cat_list ELSE [cat_list] END AS normalized
+                CASE WHEN apoc.meta.cypher.type(cat_list) = "LIST" THEN cat_list ELSE [cat_list] END AS normalized
             UNWIND normalized AS cat
             RETURN styles, collect(DISTINCT cat) AS liked_categories
         """, user_id=user_id).single()
