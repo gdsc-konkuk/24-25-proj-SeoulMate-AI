@@ -23,6 +23,16 @@ def connect_driver():
 
     return GraphDatabase.driver(uri, auth=(user, password))
 
+def flatten_liked_place_ids(liked_place_ids):
+    flattened = []
+    for i in liked_place_ids:
+        if isinstance(i, list):
+            flattened.extend(i)
+        else:
+            flattened.append(i)
+    return flattened
+
+
 def create_graph(driver, sim_threshold, max_distance_km):
     # insert_place(driver)
     connect_similar_places(driver,sim_threshold=sim_threshold, max_distance_km=max_distance_km)
@@ -119,6 +129,8 @@ def connect_similar_places(driver, sim_threshold, max_distance_km):
                 """, id1=id1, id2=id2)
 
 def update_user_node(driver, user_id: str, liked_place_ids: list, styles: list):
+
+    flattened_liked_place_ids = flatten_liked_place_ids(liked_place_ids)
     with driver.session(database="neo4j") as session:
 
         session.run("""
@@ -143,13 +155,13 @@ def update_user_node(driver, user_id: str, liked_place_ids: list, styles: list):
             DELETE r
         """, user_id=user_id)
 
-        if liked_place_ids:
+        if flattened_liked_place_ids:
             session.run("""
                 MATCH (u:User {id: $user_id})
                 UNWIND $liked_place_ids AS place_id
                 MATCH (p:Place {id: place_id})
                 MERGE (u)-[:LIKED]->(p)
-            """, user_id=user_id, liked_place_ids=liked_place_ids)
+            """, user_id=user_id, liked_place_ids=flattened_liked_place_ids)
 
 if __name__=="__main__":
     driver = connect_driver()
